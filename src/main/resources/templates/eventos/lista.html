@@ -9,9 +9,29 @@
 </head>
 <body>
 	<div th:replace="~{menu :: menu}"></div>
-	<h1>Lista de Eventos</h1>
-
-
-
+	<div class="container">
+		<h1>Lista de Eventos</h1>
+		
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome</th>
+					<th>Local</th>
+					<th>Data</th>
+					<th>Horário</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="e : ${eventos}">
+					<td th:text="${e.id}">1</td>
+					<td th:text="${e.nome}">Aniversário de João</td>
+					<td th:text="${e.local}">Clube</td>
+					<td th:text="${e.data}">25/02/2021</td>
+					<td th:text="${e.horario}">19:00</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
