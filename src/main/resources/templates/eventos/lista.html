@@ -33,7 +33,10 @@
 					<td th:text="${e.local}">Clube</td>
 					<td th:text="${e.data}">25/02/2021</td>
 					<td th:text="${e.horario}">19:00</td>
-					<td><a th:href="@{/eventos/{id}/remover(id=${e.id})}"><i class="material-icons">delete_forever</i></a></td>
+					<td>
+						<a th:href="@{/eventos/{id}/selecionar(id=${e.id})}"><i class="material-icons">edit</i></a>
+						<a th:href="@{/eventos/{id}/remover(id=${e.id})}"><i class="material-icons">delete_forever</i></a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

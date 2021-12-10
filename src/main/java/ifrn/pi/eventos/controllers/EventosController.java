@@ -26,7 +26,7 @@ public class EventosController {
 	private ConvidadoRepository cr;
 
 	@GetMapping("/form")
-	public String form() {
+	public String form(Evento evento) {
 		return "eventos/formEvento";
 	}
 
@@ -36,7 +36,7 @@ public class EventosController {
 		System.out.println(evento);
 		er.save(evento);
 
-		return "eventos/evento-adicionado";
+		return "redirect:/eventos";
 	}
 
 	@GetMapping
@@ -48,7 +48,7 @@ public class EventosController {
 	}
 
 	@GetMapping("/{id}")
-	public ModelAndView detalhar(@PathVariable Long id) {
+	public ModelAndView detalhar(@PathVariable Long id, Convidado convidado) {
 		ModelAndView md = new ModelAndView();
 		Optional<Evento> opt = er.findById(id);
 
@@ -105,12 +105,57 @@ public class EventosController {
 		Optional<Evento> opt = er.findById(idEvento);
 		Optional<Convidado> optc = cr.findById(idConvidado);
 		
-		if(!opt.isEmpty() && !optc.isEmpty()) {
+		if(!opt.isEmpty() || !optc.isEmpty()) {
 			Convidado convidado = optc.get();
 			cr.delete(convidado);
 		}
 		
 		return "redirect:/eventos/{idEvento}";
+	}
+	
+	@GetMapping("/{id}/selecionar")
+	public ModelAndView selecionarEvento(@PathVariable Long id) {
+		ModelAndView mv = new ModelAndView();
+		Optional<Evento> opt = er.findById(id);
+		
+		if(opt.isEmpty()) {
+			mv.setViewName("redirect:/eventos");
+			return mv;
+		}
+		
+		Evento evento = opt.get();
+		mv.setViewName("eventos/formEvento");
+		mv.addObject("evento", evento);
+		
+		return mv;
+	}
+	
+	@GetMapping("/{idEvento}/convidado/{idConvidado}/selecionar")
+	public ModelAndView selecionarConvidado(@PathVariable Long idEvento, @PathVariable Long idConvidado) {
+		ModelAndView mv = new ModelAndView();
+		
+		Optional<Evento> optEvento = er.findById(idEvento);
+		Optional<Convidado> optConvidado = cr.findById(idConvidado);
+		
+		if(optEvento.isEmpty() || optConvidado.isEmpty()) {
+			mv.setViewName("redirect:/eventos");
+			return mv;
+		}
+		
+		Evento evento = optEvento.get();
+		Convidado convidado = optConvidado.get();
+		
+		if(evento.getId() != convidado.getEvento().getId()) {
+			mv.setViewName("redirect:/eventos");
+			return mv;
+		}
+		
+		mv.setViewName("eventos/detalhes");
+		mv.addObject("convidado", convidado);
+		mv.addObject("evento", evento);
+		mv.addObject("convidados", cr.findByEvento(evento));
+		
+		return mv;
 	}
 	
 }

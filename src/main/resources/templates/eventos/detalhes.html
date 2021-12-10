@@ -44,12 +44,15 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Adicionar Convidado</span>
-						<form action="" method="post">
+						<form th:action="@{/eventos/{idEvento}(idEvento=${evento.id})}" method="post">
 							<div>
-								<label>Nome:</label> <input type="text" name="nome">
+								<input type="hidden" name="id" readonly="readonly" th:value="${convidado.id}">
 							</div>
 							<div>
-								<label>RG:</label> <input type="text" name="rg">
+								<label>Nome:</label> <input type="text" name="nome" th:value="${convidado.nome}">
+							</div>
+							<div>
+								<label>RG:</label> <input type="text" name="rg" th:value="${convidado.rg}">
 							</div>
 							<div>
 								<button type="submit" class="btn">Salvar</button>
@@ -80,7 +83,10 @@
 									<td th:text="${c.id}">1</td>
 									<td th:text="${c.nome}">Kauana</td>
 									<td th:text="${c.rg}">123</td>
-									<td><a th:href="@{/eventos/{idEvento}/convidado/{idConvidado}/remover(idEvento=${evento.id}, idConvidado=${c.id})}"><i
+									<td><a
+										th:href="@{/eventos/{idEvento}/convidado/{idConvidado}/selecionar(idEvento=${evento.id}, idConvidado=${c.id})}"><i
+											class="material-icons">edit</i></a> <a
+										th:href="@{/eventos/{idEvento}/convidado/{idConvidado}/remover(idEvento=${evento.id}, idConvidado=${c.id})}"><i
 											class="material-icons">delete_forever</i></a></td>
 								</tr>
 							</tbody>
