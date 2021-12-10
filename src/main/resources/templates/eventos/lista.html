@@ -5,13 +5,15 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>Eventos</title>
 </head>
 <body>
 	<div th:replace="~{menu :: menu}"></div>
 	<div class="container">
 		<h1>Lista de Eventos</h1>
-		
+
 		<table class="highlight">
 			<thead>
 				<tr>
@@ -20,15 +22,18 @@
 					<th>Local</th>
 					<th>Data</th>
 					<th>Horário</th>
+					<th>Ações</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="e : ${eventos}">
 					<td th:text="${e.id}">1</td>
-					<td><a th:href="@{/eventos/{id}(id=${e.id})}"><span th:text="${e.nome}">Aniversário de João</span></a></td>
+					<td><a th:href="@{/eventos/{id}(id=${e.id})}"><span
+							th:text="${e.nome}">Aniversário de João</span></a></td>
 					<td th:text="${e.local}">Clube</td>
 					<td th:text="${e.data}">25/02/2021</td>
 					<td th:text="${e.horario}">19:00</td>
+					<td><a th:href="@{/eventos/{id}/remover(id=${e.id})}"><i class="material-icons">delete_forever</i></a></td>
 				</tr>
 			</tbody>
 		</table>
